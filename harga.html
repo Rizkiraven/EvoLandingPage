@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Price Options</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+    }
+
+    .container {
+        text-align: center;
+    }
+
+    .button {
+        display: inline-block;
+        margin: 10px;
+        padding: 15px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 50px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Transisi untuk efek hover */
+    }
+
+    .button:hover {
+        background-color: #0056b3; /* Warna latar belakang saat tombol dihover */
+    }
+
+    .button.transparent {
+        background-color: transparent;
+        color: #007bff; /* Warna teks */
+        border: 2px solid #007bff; /* Warna border */
+    }
+
+    .box-container {
+        display: none;
+        flex-direction: row; /* Atur menjadi baris */
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch; /* Tinggi sama rata */
+        margin-top: 30px;
+    }
+
+    .box-conta {
+        display: flex;
+        flex-direction: row; /* Atur menjadi baris */
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch; /* Tinggi sama rata */
+        margin-top: 30px;
+    }
+
+    .box {
+        display: inline-block;
+        width: 250px;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        margin: 0 10px;
+        text-align: left;
+        border-radius: 30px;
+    }
+
+    .box-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .specifications {
+        margin-top: 10px;
+        text-align: left;
+    }
+
+    .specifications li {
+        list-style: none;
+        margin-bottom: 5px;
+        position: relative;
+        padding-left: 25px;
+    }
+
+    .specifications li::before {
+        content: "\2713"; /* kode unicode untuk ikon ceklis */
+        font-size: 16px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #007bff;
+    }
+</style>
+</head>
+<body>
+<section id="harga" class="d-flex align-items-center">
+<div class="container">
+    <button class="button" id="btn3Bulan">3 Bulan</button>
+    <button class="button transparent" id="btn1Tahun">1 Tahun</button>
+
+    <div class="box-container" id="boxContainer3Bulan">
+        <div class="box-conta">
+            <div class="box">
+                <div class="box-title">Stater
+                    <p>Rp.399.000</p>
+                </div>
+               
+                <div class="specifications">
+                    <ul>
+                        <li>2 User</li>
+                        <li>Omnichanel Chat</li>
+                        <li>Basic Broadcast</li>
+                        <li>Basic Chatbot</li>
+                        <li>Web & Mobile Access</li>
+                        <li>Manajemen Laporan</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-title">Bisnis
+                    <p>Rp.849.000</p>
+                </div>
+                <div class="specifications">
+                    <ul>
+                        <li>10 User</li>
+                        <li>Omnichanel Chat</li>
+                        <li>Premium Broadcast</li>
+                        <li>Premium Chatbot</li>
+                        <li>Web & Mobile Access</li>
+                        <li>Manajemen Kontak</li>
+                        <li>Manajemen Laporan</li>
+                        <li>Artificial Intelligence</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="box-container" id="boxContainer1Tahun">
+        <div class="box-conta">
+            <div class="box">
+                <div class="box-title">Stater
+                    <p>Rp.249.000</p>
+                </div>
+                <div class="specifications">
+                    <ul>
+                        <li>2 User</li>
+                        <li>Omnichanel Chat</li>
+                        <li>Basic Broadcast</li>
+                        <li>Basic Chatbot</li>
+                        <li>Web & Mobile Access</li>
+                        <li>Manajemen Laporan</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-title">Bisnis
+                    <p>Rp.699.000</p>    
+                </div>
+                <div class="specifications">
+                    <ul>
+                        <li>10 User</li>
+                        <li>Omnichanel Chat</li>
+                        <li>Premium Broadcast</li>
+                        <li>Premium Chatbot</li>
+                        <li>Web & Mobile Access</li>
+                        <li>Manajemen Kontak</li>
+                        <li>Manajemen Laporan</li>
+                        <li>Artificial Intelligence</li>
+                    </ul>
+                </div>
+            </div>
+        </div>   
+    </div>
+</div>
+</section>
+
+<script>
+    const btn3Bulan = document.getElementById('btn3Bulan');
+    const btn1Tahun = document.getElementById('btn1Tahun');
+    const boxContainer3Bulan = document.getElementById('boxContainer3Bulan');
+    const boxContainer1Tahun = document.getElementById('boxContainer1Tahun');
+
+    boxContainer1Tahun.style.display = 'block';
+
+    btn3Bulan.addEventListener('click', function() {
+        boxContainer3Bulan.style.display = 'block';
+        boxContainer1Tahun.style.display = 'none';
+        btn1Tahun.classList.remove('transparent'); // Hapus kelas transparan dari tombol 1 Tahun
+        btn3Bulan.classList.add('transparent'); // Tambahkan kelas transparan pada tombol 3 Bulan
+    });
+
+    btn1Tahun.addEventListener('click', function() {
+        boxContainer3Bulan.style.display = 'none';
+        boxContainer1Tahun.style.display = 'block';
+        btn1Tahun.classList.add('transparent'); // Tambahkan kelas transparan pada tombol 1 Tahun
+        btn3Bulan.classList.remove('transparent'); // Hapus kelas transparan dari tombol 3 Bulan
+    });
+</script>
+</body>
+</html>
