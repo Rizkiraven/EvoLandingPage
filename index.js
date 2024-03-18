@@ -41,17 +41,6 @@ app.post("/send-email", (req, res) => {
     text: `Halo ${name}, terima kasih telah mendaftar di evobird. Berikut adalah detail perusahaan anda: Nama Perusahaan: ${company_name}, Jumlah Karyawan: ${company_size}, Email: ${email}, No. Telepon: ${phone}`,
   };
 
-  // Send the email
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log("Error 1 occurred:", error.message);
-      res.status(500).send("Error occurred while sending email");
-    } else {
-      console.log("Email 1 sent successfully:", info.response);
-      res.status(200).send("Email sent successfully");
-    }
-  });
-
   // Define the email options for admin
   const mailOptions2 = {
     from: process.env.EMAIL,
@@ -69,8 +58,17 @@ app.post("/send-email", (req, res) => {
     }
   });
 
-  // Return success response
-  res.status(200).send("Email sent successfully");
+  // Send the email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log("Error 1 occurred:", error.message);
+      res.status(500).send("Error occurred while sending email");
+    } else {
+      console.log("Email 1 sent successfully:", info.response);
+      res.status(200).send("Email sent successfully");
+    }
+  });
+
 });
 
 // Start the server
