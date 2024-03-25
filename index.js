@@ -12,6 +12,12 @@ app.use(upload.none());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
 // Create a transporter object with Gmail SMTP credentials
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -29,10 +35,7 @@ app.post("/text", (req, res) => {
   console.log(name, company_name, company_size, email, phone);
 });
 
-// POST endpoint to send email
-app.post("/send-email", (req, res) => {
-  const { name, company_name, company_size, email, phone } = req.body;
-
+function send_email(name, company_name, company_size, email, phone) {
   // Define the email options
   const mailOptions = {
     from: process.env.EMAIL,
@@ -68,7 +71,21 @@ app.post("/send-email", (req, res) => {
       res.status(200).send("Email sent successfully");
     }
   });
+}
 
+// POST endpoint to send email
+app.post("/send-email", (req, res) => {
+  const { name, company_name, company_size, email, phone } = req.body;
+
+  // validate
+  if (!name || !company_name || !company_size || !email || !phone) {
+    return res.status(400).send("All input is required");
+  }
+
+  // TODO: make it async
+  send_email(name, company_name, company_size, email, phone);
+
+  return res.status(200).send("Email sent successfully");
 });
 
 // Start the server

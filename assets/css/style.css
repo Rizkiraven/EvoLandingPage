@@ -143,7 +143,7 @@ h6 {
 * Desktop Navigation
 */
 .navbar {
-  padding: 0;
+  padding: 0.5rem 1rem;
 }
 
 .navbar ul {
@@ -2682,7 +2682,7 @@ section {
   .lay3-desc {
     font-weight: 500;
     /* font-size: 29px; */
-    font-size: clamp(29px, 2vw, 22px);
+    font-size: clamp(27px, 2vw, 20px);
 
     color: #c6d0d8;
   }
@@ -2820,4 +2820,30 @@ ul.l1-features {
 
 .text-larger {
   font-size: 1.1rem;
+}
+
+.client-icon {
+  max-height: 100px;
+  width: auto;
+}
+
+.coming-soon {
+  position: relative;
+}
+
+.coming-soon::after {
+  content: "Coming Soon";
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* padding: 8px 16px; */
+  width: 120px;
+  padding: 6px 4px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5px;
 }
