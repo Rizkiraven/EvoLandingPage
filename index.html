@@ -53,20 +53,22 @@
         <div class="row d-flex flex-col">
           <!-- Uncomment below if you prefer to use an image logo -->
 
-          <nav id="navbar " class="navbar h-auto">
+          <nav id="navbar" class="navbar h-auto">
             <a href="index.html" class="logo me-auto w-auto"
               ><img src="assets/img/evofav.png" alt="" class="img-fluid"
             /></a>
             <ul>
               <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-              <li><a class="nav-link scrollto" href="#services">Fitur</a></li>
-              <li><a class="nav-link scrollto" href="#cta">Partner</a></li>
-              <li><a class="nav-link scrollto" href="#hargapaket">Harga</a></li>
-              <li><a class="nav-link scrollto" href="#team">Produk</a></li>
+              <li><a class="nav-link scrollto" href="#feature">Fitur</a></li>
+              <li><a class="nav-link scrollto" href="#pricing">Harga</a></li>
+              <!-- <li><a class="nav-link scrollto" href="#pricing">Login</a></li> -->
+              <li><a class="nav-link scrollto" href="#demo">Demo</a></li>
               <ul>
-                <li><a class="nav-link scrollto" href="#contact">Kontak</a></li>
+                <!-- <li><a class="nav-link scrollto" href="#contact">Kontak</a></li> -->
                 <li>
-                  <a class="getstarted scrollto" href="#team">Get Started</a>
+                  <a class="getstarted scrollto" href="#purchase"
+                    >Beli Sekarang</a
+                  >
                 </li>
               </ul>
               <i class="bi bi-list mobile-nav-toggle"></i>
@@ -75,6 +77,48 @@
           <!-- .navbar -->
         </div>
       </div>
+
+      <script>
+        const navLinks = document.querySelectorAll("nav ul li a");
+        navLinks.forEach((link) => {
+          link.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            const targetId = event.currentTarget.getAttribute("href").slice(1);
+            const targetElement = document.getElementById(targetId);
+            console.log("runned");
+
+            if (targetElement) {
+              const offsetTop = targetElement.offsetTop - 100;
+              window.scrollTo({
+                top: offsetTop,
+                behavior: "smooth",
+              });
+            }
+          });
+        });
+        window.addEventListener("scroll", function () {
+          const sections = document.querySelectorAll("section");
+
+          let currentSection = "";
+
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+
+            if (window.pageYOffset >= sectionTop - sectionHeight / 3) {
+              currentSection = section.getAttribute("id");
+            }
+          });
+
+          navLinks.forEach((link) => {
+            link.classList.remove("active");
+            if (link.getAttribute("href").includes(`#${currentSection}`)) {
+              link.classList.add("active");
+            }
+          });
+        });
+      </script>
     </header>
     <!-- End Header -->
 
@@ -283,7 +327,7 @@
       <!-- End About Us Section -->
 
       <!-- ======= Why Us Section ======= -->
-      <section id="why-us" class="why-us section-bg">
+      <section id="feature" class="why-us section-bg">
         <div class="container-fluid" data-aos="fade-up">
           <div class="row">
             <div
@@ -1117,7 +1161,7 @@
       <!-- End Services Section -->
 
       <!-- ======= Cta Section ======= -->
-      <section id="cta" class="cta">
+      <section id="why-us" class="cta">
         <div class="container" data-aos="zoom-in">
           <div class="row">
             <div class="col-lg-9 text-center text-lg-start">
@@ -1140,7 +1184,7 @@
       </section>
 
       <!-- ======= Pricing Section ======= -->
-      <section id="hargapaket" class="hargapaket">
+      <section id="pricing" class="hargapaket">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
             <h2 style="font-size: 45px">Pilih Paket Sesuai Kebutuhan Anda</h2>
@@ -1240,7 +1284,7 @@
       <!-- End Pricing Section -->
 
       <!-- ======= Team Section ======= -->
-      <section id="team" class="team section-bg">
+      <section id="demo" class="team section-bg">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
             <h2>demo kirim broadcast dengan evobird</h2>
@@ -1375,7 +1419,7 @@
       <!-- End Frequently Asked Questions Section -->
 
       <!-- ======= Contact Section ======= -->
-      <section id="contact" class="contact">
+      <section id="purchase" class="contact">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
             <h2>Beli Sekarang</h2>
@@ -1462,42 +1506,46 @@
                   // Get the form element
                   const form = document.getElementById("buy-form");
 
-                  // Add an event listener for form submission
-                  form.addEventListener("submit", function (event) {
-                    // Prevent the default form submission behavior
+                  // Helper function to handle form submission
+                  async function handleFormSubmission(event) {
                     event.preventDefault();
-                    const formData = new FormData(form);
-                    // convert the form data to a JSON object
-                    const plainFormData = Object.fromEntries(
-                      formData.entries()
-                    );
-                    const formDataJsonString = JSON.stringify(plainFormData);
-                    console.log(formDataJsonString);
 
-                    // Send the form data to the server using an AJAX request
+                    try {
+                      const formData = new FormData(event.target);
+                      const response = await fetch(
+                        "http://127.0.0.1:3000/send-email",
+                        {
+                          method: "POST",
+                          body: formData,
+                        }
+                      );
 
-                    fetch("http://127.0.0.1:3000/send-email", {
-                      method: "POST",
-                      body: formData,
-                    })
-                      .then((response) => {
-                        // Handle the server response if needed
-                        console.log("Form submitted successfully", response);
-                        setTimeout(function () {
+                      if (response.ok) {
+                        console.log("Form submitted successfully");
+                        // Optionally, you can handle the response data here
+                        // const data = await response.json();
+                        // console.log(data);
+
+                        // Open WhatsApp after a successful submission
+                        setTimeout(() => {
                           window.open(
                             "https://wa.me/6281341285626?text=%22hai%20kenal%22",
                             "_blank"
                           );
-                        }, 2000);
-                      })
-                      .catch((error) => {
+                        }, 1500);
+                      } else {
                         console.error(
                           "Error submitting form:",
-                          error,
-                          response
+                          response.status
                         );
-                      });
-                  });
+                      }
+                    } catch (error) {
+                      console.error("Error submitting form:", error);
+                    }
+                  }
+
+                  // Add an event listener for form submission
+                  form.addEventListener("submit", handleFormSubmission);
                 </script>
               </div>
             </div>
