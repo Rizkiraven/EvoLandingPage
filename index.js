@@ -68,6 +68,20 @@ app.post("/send-email", async (req, res) => {
     return res.status(400).send("All input is required");
   }
 
+  // check if email is valid
+  const emailRegex = /\S+@\S+\.\S+/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).send("Invalid email address");
+  }
+
+  // check if phone number is valid
+  const phoneRegex = /^\d{10,14}$/;
+  if (!phoneRegex.test(phone)) {
+    return res.status(400).send("Invalid phone number");
+  }
+
+  
+
   try {
     await sendEmail(name, company_name, company_size, email, phone);
     return res.status(200).send("Email sent successfully");
