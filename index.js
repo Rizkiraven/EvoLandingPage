@@ -1,18 +1,22 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
-const app = express();
-// get .env
 require("dotenv").config();
+const app = express();
 const port = 3000;
 const multer = require("multer");
 const upload = multer();
 
-// Middleware to parse request body
+// Middleware
 app.use(upload.none());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 
-// Create a transporter object with Gmail SMTP credentials
+// Nodemailer transporter
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -21,54 +25,69 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-app.post("/text", (req, res) => {
-  // print body content
-  console.log(req.body);
-  const { name, company_name, company_size, email, phone } = req.body;
-  // console.log it
-  console.log(name, company_name, company_size, email, phone);
-});
-
-// POST endpoint to send email
-app.post("/send-email", (req, res) => {
-  const { name, company_name, company_size, email, phone } = req.body;
-
-  // Define the email options
-  const mailOptions = {
+// Email sending function
+async function sendEmail(name, company_name, company_size, email, phone) {
+  const userMailOptions = {
     from: process.env.EMAIL,
     to: email,
     subject: "Selamat datang di evobird",
     text: `Halo ${name}, terima kasih telah mendaftar di evobird. Berikut adalah detail perusahaan anda: Nama Perusahaan: ${company_name}, Jumlah Karyawan: ${company_size}, Email: ${email}, No. Telepon: ${phone}`,
   };
 
-  // Define the email options for admin
-  const mailOptions2 = {
+  const adminMailOptions = {
     from: process.env.EMAIL,
     to: "aldiandyainf+admin@gmail.com",
     subject: "New User Registration",
     text: `New user registered with the following details: Name: ${name}, Company Name: ${company_name}, Company Size: ${company_size}, Email: ${email}, Phone: ${phone}`,
   };
 
-  // Send the email to admin
-  transporter.sendMail(mailOptions2, (error, info) => {
-    if (error) {
-      console.log("Error 2 occurred:", error.message);
-    } else {
-      console.log("Email 2 sent successfully:", info.response);
-    }
-  });
+  try {
+    await transporter.sendMail(adminMailOptions);
+    console.log("Email sent to admin successfully");
 
-  // Send the email
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log("Error 1 occurred:", error.message);
-      res.status(500).send("Error occurred while sending email");
-    } else {
-      console.log("Email 1 sent successfully:", info.response);
-      res.status(200).send("Email sent successfully");
-    }
-  });
+    await transporter.sendMail(userMailOptions);
+    console.log("Email sent to user successfully");
+  } catch (error) {
+    console.error("Error occurred while sending email:", error.message);
+    throw error;
+  }
+}
 
+// Handle text request
+app.post("/text", (req, res) => {
+  const { name, company_name, company_size, email, phone } = req.body;
+  console.log(name, company_name, company_size, email, phone);
+});
+
+// POST endpoint to send email
+app.post("/send-email", async (req, res) => {
+  const { name, company_name, company_size, email, phone } = req.body;
+
+  // Validate input
+  if (!name || !company_name || !company_size || !email || !phone) {
+    return res.status(400).send("All input is required");
+  }
+
+  // check if email is valid
+  const emailRegex = /\S+@\S+\.\S+/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).send("Invalid email address");
+  }
+
+  // check if phone number is valid
+  const phoneRegex = /^\d{10,14}$/;
+  if (!phoneRegex.test(phone)) {
+    return res.status(400).send("Invalid phone number");
+  }
+
+  
+
+  try {
+    await sendEmail(name, company_name, company_size, email, phone);
+    return res.status(200).send("Email sent successfully");
+  } catch (error) {
+    return res.status(500).send("Error occurred while sending email");
+  }
 });
 
 // Start the server
