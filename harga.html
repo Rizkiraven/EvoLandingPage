@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Price Options</title>
+<title>Price Options & Harga Satuan</title>
 <style>
     body {
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
-        height: 100vh;
         background-color: #f0f0f0;
     }
 
     .container {
         text-align: center;
+        margin: 20px;
     }
 
     .button {
@@ -27,48 +27,36 @@
         font-size: 18px;
         font-weight: bold;
         border-radius: 50px;
+        background-color: transparent;
+        color: #007bff;
+        border: 2px solid #007bff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button.active {
         background-color: #007bff;
         color: #fff;
-        text-decoration: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease; /* Transisi untuk efek hover */
-    }
-
-    .button:hover {
-        background-color: #0056b3; /* Warna latar belakang saat tombol dihover */
-    }
-
-    .button.transparent {
-        background-color: transparent;
-        color: #007bff; /* Warna teks */
-        border: 2px solid #007bff; /* Warna border */
     }
 
     .box-container {
         display: none;
-        flex-direction: row; /* Atur menjadi baris */
+        flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-        align-items: stretch; /* Tinggi sama rata */
-        margin-top: 30px;
-    }
-
-    .box-conta {
-        display: flex;
-        flex-direction: row; /* Atur menjadi baris */
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: stretch; /* Tinggi sama rata */
+        align-items: stretch;
         margin-top: 30px;
     }
 
     .box {
-        display: inline-block;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         width: 250px;
         padding: 20px;
         background-color: #fff;
         border: 1px solid #ccc;
-        margin: 0 10px;
+        margin: 10px;
         text-align: left;
         border-radius: 30px;
     }
@@ -83,6 +71,7 @@
     .specifications {
         margin-top: 10px;
         text-align: left;
+        flex-grow: 1;
     }
 
     .specifications li {
@@ -93,119 +82,280 @@
     }
 
     .specifications li::before {
-        content: "\2713"; /* kode unicode untuk ikon ceklis */
+        content: "\2713";
         font-size: 16px;
         position: absolute;
         left: 0;
         top: 0;
         color: #007bff;
     }
+
+    h1 {
+        color: #333;
+    }
+
+    .item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .item-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #e0e0e0;
+        border-radius: 50%;
+    }
+
+    .item-details {
+        flex-grow: 1;
+    }
+
+    .item-price {
+        font-weight: bold;
+        margin-left: 10px;
+    }
+
+    .quantity-control {
+        display: flex;
+        align-items: center;
+    }
+
+    .quantity-control button {
+        padding: 5px 10px;
+        background-color: #f2f2f2;
+        border: none;
+        cursor: pointer;
+    }
+
+    .quantity-control input {
+        width: 40px;
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+
+    .quantity-total {
+        font-weight: bold;
+        margin-left: 20px;
+    }
+
+    .buy-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: bold;
+    }
 </style>
 </head>
 <body>
-<section id="harga" class="d-flex align-items-center">
-<div class="container">
-    <button class="button" id="btn3Bulan">3 Bulan</button>
-    <button class="button transparent" id="btn1Tahun">1 Tahun</button>
+    <section id="harga" class="d-flex align-items-center">
+        <div class="container">
+            <button class="button" id="btn3Bulan">3 Bulan</button>
+            <button class="button active" id="btn1Tahun">1 Tahun</button>
 
-    <div class="box-container" id="boxContainer3Bulan">
-        <div class="box-conta">
-            <div class="box">
-                <div class="box-title">Stater
-                    <p>Rp.399.000</p>
+            <div class="box-container" id="boxContainer3Bulan">
+                <div class="box">
+                    <div class="box-title">Starter
+                        <p>Rp.399.000</p>
+                    </div>
+                    <div class="specifications">
+                        <ul>
+                            <li>2 User</li>
+                            <li>Omnichannel Chat</li>
+                            <li>Basic Broadcast</li>
+                            <li>Basic Chatbot</li>
+                            <li>Web & Mobile Access</li>
+                            <li>Manajemen Laporan</li>
+                        </ul>
+                    </div>
                 </div>
-               
-                <div class="specifications">
-                    <ul>
-                        <li>2 User</li>
-                        <li>Omnichanel Chat</li>
-                        <li>Basic Broadcast</li>
-                        <li>Basic Chatbot</li>
-                        <li>Web & Mobile Access</li>
-                        <li>Manajemen Laporan</li>
-                    </ul>
+                <div class="box">
+                    <div class="box-title">Bisnis
+                        <p>Rp.849.000</p>
+                    </div>
+                    <div class="specifications">
+                        <ul>
+                            <li>10 User</li>
+                            <li>Omnichannel Chat</li>
+                            <li>Premium Broadcast</li>
+                            <li>Premium Chatbot</li>
+                            <li>Web & Mobile Access</li>
+                            <li>Manajemen Kontak</li>
+                            <li>Manajemen Laporan</li>
+                            <li>Artificial Intelligence</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="box">
-                <div class="box-title">Bisnis
-                    <p>Rp.849.000</p>
+
+            <div class="box-container" id="boxContainer1Tahun" style="display: flex;">
+                <div class="box">
+                    <div class="box-title">Starter
+                        <p>Rp.249.000</p>
+                    </div>
+                    <div class="specifications">
+                        <ul>
+                            <li>2 User</li>
+                            <li>Omnichannel Chat</li>
+                            <li>Basic Broadcast</li>
+                            <li>Basic Chatbot</li>
+                            <li>Web & Mobile Access</li>
+                            <li>Manajemen Laporan</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="specifications">
-                    <ul>
-                        <li>10 User</li>
-                        <li>Omnichanel Chat</li>
-                        <li>Premium Broadcast</li>
-                        <li>Premium Chatbot</li>
-                        <li>Web & Mobile Access</li>
-                        <li>Manajemen Kontak</li>
-                        <li>Manajemen Laporan</li>
-                        <li>Artificial Intelligence</li>
-                    </ul>
+                <div class="box">
+                    <div class="box-title">Bisnis
+                        <p>Rp.699.000</p>    
+                    </div>
+                    <div class="specifications">
+                        <ul>
+                            <li>10 User</li>
+                            <li>Omnichannel Chat</li>
+                            <li>Premium Broadcast</li>
+                            <li>Premium Chatbot</li>
+                            <li>Web & Mobile Access</li>
+                            <li>Manajemen Kontak</li>
+                            <li>Manajemen Laporan</li>
+                            <li>Artificial Intelligence</li>
+                        </ul>
+                    </div>
                 </div>
+            </div>
+
+            <h1>Harga Satuan</h1>
+            <p>Kami menghadirkan fleksibilitas dalam pricing sehingga Anda dapat memilih opsi yang sesuai.</p>
+            
+            <div class="item">
+                <div class="item-icon">
+                    <i class="fa fa-whatsapp"></i>
+                </div>
+                <div class="item-details">
+                    <h3>WhatsApp Channel</h3>
+                    <p>Mengelola Chat Lebih Mudah</p>
+                </div>
+                <div class="item-price">Rp 150.000</div>
+                <div class="quantity-control">
+                    <button onclick="decrementCount(0)">-</button>
+                    <input type="text" id="count0" value="0">
+                    <button onclick="incrementCount(0)">+</button>
+                </div>
+                <div class="item-price">Per Nomor WhatsApp Per Bulan</div>
+                <div class="quantity-total" id="total0">Rp 0</div>
+                <button class="buy-button" onclick="buyNow(0)">Beli</button>
+            </div>
+            
+            <div class="item">
+                <div class="item-icon">
+                    <i class="fa fa-robot"></i>
+                </div>
+                <div class="item-details">
+                    <h3>Chat Bot AI</h3>
+                    <p>Menjawab Pertanyaan User Lebih Mudah</p>
+                </div>
+                <div class="item-price">Rp 1.000</div>
+                <div class="quantity-control">
+                    <button onclick="decrementCount(1)">-</button>
+                    <input type="text" id="count1" value="0">
+                    <button onclick="incrementCount(1)">+</button>
+                </div>
+                <div class="item-price">Per 1.000 Token</div>
+                <div class="quantity-total" id="total1">Rp 0</div>
+                <button class="buy-button" onclick="buyNow(1)">Beli</button>
+            </div>
+            
+            <div class="item">
+                <div class="item-icon">
+                    <i class="fa fa-facebook-messenger"></i>
+                </div>
+                <div class="item-details">
+                    <h3>Messenger Premium</h3>
+                    <p>Membantu Membalas Pertanyaan User</p>
+                </div>
+                <div class="item-price">Rp 100.000</div>
+                <div class="quantity-control">
+                    <button onclick="decrementCount(2)">-</button>
+                    <input type="text" id="count2" value="0">
+                    <button onclick="incrementCount(2)">+</button>
+                </div>
+                <div class="item-price">Per 10 Messenger Per Bulan</div>
+                <div class="quantity-total" id="total2">Rp 0</div>
+                <button class="buy-button" onclick="buyNow(2)">Beli</button>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="box-container" id="boxContainer1Tahun">
-        <div class="box-conta">
-            <div class="box">
-                <div class="box-title">Stater
-                    <p>Rp.249.000</p>
-                </div>
-                <div class="specifications">
-                    <ul>
-                        <li>2 User</li>
-                        <li>Omnichanel Chat</li>
-                        <li>Basic Broadcast</li>
-                        <li>Basic Chatbot</li>
-                        <li>Web & Mobile Access</li>
-                        <li>Manajemen Laporan</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="box">
-                <div class="box-title">Bisnis
-                    <p>Rp.699.000</p>    
-                </div>
-                <div class="specifications">
-                    <ul>
-                        <li>10 User</li>
-                        <li>Omnichanel Chat</li>
-                        <li>Premium Broadcast</li>
-                        <li>Premium Chatbot</li>
-                        <li>Web & Mobile Access</li>
-                        <li>Manajemen Kontak</li>
-                        <li>Manajemen Laporan</li>
-                        <li>Artificial Intelligence</li>
-                    </ul>
-                </div>
-            </div>
-        </div>   
-    </div>
-</div>
-</section>
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"></script>
+    <script>
+        const btn3Bulan = document.getElementById('btn3Bulan');
+        const btn1Tahun = document.getElementById('btn1Tahun');
+        const boxContainer3Bulan = document.getElementById('boxContainer3Bulan');
+        const boxContainer1Tahun = document.getElementById('boxContainer1Tahun');
 
-<script>
-    const btn3Bulan = document.getElementById('btn3Bulan');
-    const btn1Tahun = document.getElementById('btn1Tahun');
-    const boxContainer3Bulan = document.getElementById('boxContainer3Bulan');
-    const boxContainer1Tahun = document.getElementById('boxContainer1Tahun');
+        boxContainer1Tahun.style.display = 'flex';
 
-    boxContainer1Tahun.style.display = 'block';
+        btn3Bulan.addEventListener('click', function() {
+            boxContainer3Bulan.style.display = 'flex';
+            boxContainer1Tahun.style.display = 'none';
+            btn1Tahun.classList.remove('active');
+            btn3Bulan.classList.add('active');
+        });
 
-    btn3Bulan.addEventListener('click', function() {
-        boxContainer3Bulan.style.display = 'block';
-        boxContainer1Tahun.style.display = 'none';
-        btn1Tahun.classList.remove('transparent'); // Hapus kelas transparan dari tombol 1 Tahun
-        btn3Bulan.classList.add('transparent'); // Tambahkan kelas transparan pada tombol 3 Bulan
-    });
+        btn1Tahun.addEventListener('click', function() {
+            boxContainer3Bulan.style.display = 'none';
+            boxContainer1Tahun.style.display = 'flex';
+            btn1Tahun.classList.add('active');
+            btn3Bulan.classList.remove('active');
+        });
 
-    btn1Tahun.addEventListener('click', function() {
-        boxContainer3Bulan.style.display = 'none';
-        boxContainer1Tahun.style.display = 'block';
-        btn1Tahun.classList.add('transparent'); // Tambahkan kelas transparan pada tombol 1 Tahun
-        btn3Bulan.classList.remove('transparent'); // Hapus kelas transparan dari tombol 3 Bulan
-    });
-</script>
+        function incrementCount(index) {
+            const countElement = document.getElementById('count' + index);
+            let count = parseInt(countElement.value);
+            count++;
+            countElement.value = count;
+            updateTotal(index);
+        }
+
+        function decrementCount(index) {
+            const countElement = document.getElementById('count' + index);
+            let count = parseInt(countElement.value);
+            if (count > 0) {
+                count--;
+                countElement.value = count;
+                updateTotal(index);
+            }
+        }
+
+        function updateTotal(index) {
+            const prices = [150000, 1000, 100000];
+            const countElement = document.getElementById('count' + index);
+            const totalElement = document.getElementById('total' + index);
+            let count = parseInt(countElement.value);
+            let total = count * prices[index];
+            totalElement.textContent = 'Rp ' + total.toLocaleString('id-ID');
+        }
+
+        function buyNow(index) {
+            const countElement = document.getElementById('count' + index);
+            let count = parseInt(countElement.value);
+            if (count > 0) {
+                alert('Anda membeli ' + count + ' item.');
+            } else {
+                alert('Silakan pilih jumlah item terlebih dahulu.');
+            }
+        }
+    </script>
 </body>
 </html>
